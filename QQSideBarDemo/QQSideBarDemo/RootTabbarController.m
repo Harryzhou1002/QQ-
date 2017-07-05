@@ -24,9 +24,11 @@
     
     NavigationController * navD = [[NavigationController alloc]initWithRootViewController:self.dynamicVC];
     
+    
     self.viewControllers = @[navM, navC, navD];
     
 }
+
 
 -(MessageViewController *)messageVC
 {
@@ -61,5 +63,7 @@
     }
     return _dynamicVC;
 }
+
+
 
 @end

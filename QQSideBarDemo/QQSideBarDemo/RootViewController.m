@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger , State) {
 
 static const CGFloat viewSlideScaleX = 0.75;
 
-@interface RootViewController ()<SideMenuViewControllerDelegate>
+@interface RootViewController ()<SideMenuViewControllerDelegate,UITabBarControllerDelegate>
 
 @property (strong, nonatomic) RootTabbarController * rootTabbarVC;
 @property (strong, nonatomic) SideMenuViewController * sideMenuVC;
@@ -45,8 +45,9 @@ static const CGFloat viewSlideScaleX = 0.75;
     
     [self.view addSubview:self.backgroundView];
     [self.view addSubview:self.sideMenuVC.view];
-    [self.view addSubview:self.coverView];
+//    [self.view addSubview:self.coverView];
     [self.view addSubview:self.rootTabbarVC.view];
+    
     self.sideMenuVC.view.center = CGPointMake(self.view.center.x/2, self.view.center.y);
     self.sideMenuVC.delegate = self;
     
@@ -60,6 +61,7 @@ static const CGFloat viewSlideScaleX = 0.75;
     UITapGestureRecognizer * userImageTapGR = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapUserImage:)];
     [self.rootTabbarVC.messageVC.userIMG addGestureRecognizer:userImageTapGR];
     
+   
     self.menuCenterStartX = self.view.bounds.size.width * viewSlideScaleX / 2;
     self.menuCenterEndX = self.view.center.x;
     self.leftDistance = self.view.bounds.size.width*viewSlideScaleX;
@@ -159,6 +161,20 @@ static const CGFloat viewSlideScaleX = 0.75;
 
 }
 
+#pragma mark - tabbarController delegate
+//当点击某个标签时,tabBar触发该方法
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    if (tabBarController.selectedIndex != 0) {
+        _panGR.enabled = NO;
+        _tapGR.enabled = NO;
+    }else{
+        _panGR.enabled = YES;
+        _tapGR.enabled = NO;
+    }
+}
+
+#pragma mark - SideMenuViewController delegate
 -(void)sideMenuViewController:(SideMenuViewController *)sideMenuVC clickMenuItem:(NSString *)title
 {
     if ([title isEqualToString:@"QQ钱包"]) {
@@ -170,10 +186,12 @@ static const CGFloat viewSlideScaleX = 0.75;
 }
 
 
+
 -(RootTabbarController *)rootTabbarVC
 {
     if (_rootTabbarVC == nil) {
         _rootTabbarVC = [[RootTabbarController alloc]init];
+        _rootTabbarVC.delegate = self;
     }
     return _rootTabbarVC;
 }
@@ -198,13 +216,13 @@ static const CGFloat viewSlideScaleX = 0.75;
     return _backgroundView;
 }
 
--(UIView *)coverView
-{
-    if (_coverView == nil) {
-        _coverView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-        _coverView.backgroundColor = [UIColor blackColor];
-    }
-    return _coverView;
-}
+//-(UIView *)coverView
+//{
+//    if (_coverView == nil) {
+//        _coverView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
+//        _coverView.backgroundColor = [UIColor blackColor];
+//    }
+//    return _coverView;
+//}
 
 @end

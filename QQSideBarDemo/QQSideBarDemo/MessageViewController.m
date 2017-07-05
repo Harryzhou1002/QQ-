@@ -27,7 +27,7 @@
 -(UIImageView *)userIMG
 {
     if (_userIMG == nil) {
-        _userIMG = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"me"]];
+        _userIMG = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"icon"]];
         _userIMG.frame = CGRectMake(0, 0, 35, 35);
         _userIMG.layer.masksToBounds = YES;
         _userIMG.layer.cornerRadius = 17.5;
